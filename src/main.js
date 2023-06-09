@@ -1,17 +1,21 @@
-import TripPresenter from './presenter/waypoints-presenter.js';
-import WayPointsModel from './model/waypoints-model.js';
-import { getDestinations, getOffersByType, getWayPoints } from './fish/waypoint.js';
+import FiltersView from './view/filters.js';
+import TripEventsPresenter from './presenter/trip-events-presenter.js';
+// import SiteMenuView from './view/site-menu.js';
+import { render } from './render.js';
+import PointsModel from './model/points-model.js';
+import { getPoints, getDestinations, getOffersByType } from './mock/point.js';
 
+const siteHeaderElement = document.querySelector('.trip-main');
+const siteMainElement = document.querySelector('.page-main');
+const tripPresenter = new TripEventsPresenter(siteMainElement.querySelector('.trip-events'));
 
-const filterContainer = document.querySelector('.trip-controls__filters');
-const tripContainer = document.querySelector('.trip-events');
-
-const wayPointsModel = new WayPointsModel();
-const tripPresenter = new TripPresenter();
-
-const waypoints = getWayPoints();
+const points = getPoints();
 const offersByType = getOffersByType();
 const destinations = getDestinations();
 
-wayPointsModel.init(waypoints, destinations, offersByType);
-tripPresenter.init(filterContainer, tripContainer, wayPointsModel);
+const pointsModel = new PointsModel();
+
+render(new FiltersView(), siteHeaderElement.querySelector('.trip-controls__filters'));
+
+pointsModel.init(points, destinations, offersByType);
+tripPresenter.init(pointsModel);

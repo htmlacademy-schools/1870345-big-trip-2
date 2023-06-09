@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import { createElement } from '../render.js';
 import { getDateTime } from '../utils.js';
 
 const renderDestinationPictures = (pictures) => {
@@ -26,12 +26,11 @@ const renderOffers = (allOffers, checkedOffers) => {
   return result;
 };
 
-const createEditFormTemplate = (point, destinations, offers) => {
+const createEditingPointTemplate = (point, destinations, offers) => {
   const {basePrice, type, destinationId, dateFrom, dateTo, offerIds} = point;
-  const pointTypeOffers = offers.find((offer) => offer.type === type);
-
+  const allPointTypeOffers = offers.find((offer) => offer.type === type);
   return (
-    `<div class="trip-events__item">
+    `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -130,7 +129,7 @@ const createEditFormTemplate = (point, destinations, offers) => {
       <section class="event__details">
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-          ${renderOffers(pointTypeOffers.offers, offerIds)}
+          ${renderOffers(allPointTypeOffers.offers, offerIds)}
         </section>
 
         <section class="event__section  event__section--destination">
@@ -145,32 +144,35 @@ const createEditFormTemplate = (point, destinations, offers) => {
         </section>
       </section>
     </form>
-  </div>`
+  </li>`
   );
 };
 
-export default class NewEditFormView {
-  constructor(point, destinations, offers) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+export default class EditingPointView {
+  #element = null;
+  #point = null;
+  #destination = null;
+  #offers = null;
+
+  constructor(point, destination, offers) {
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
   }
 
-  getTemplate() {
-    return createEditFormTemplate(this.point, this.destinations, this.offers);
+  get template () {
+    return createEditingPointTemplate(this.#point, this.#destination, this.#offers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element){
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
-
-

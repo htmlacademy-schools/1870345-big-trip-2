@@ -1,46 +1,46 @@
 import dayjs from 'dayjs';
 
-const MINUTES_PER_HOUR = 60;
-const MINUTES_PER_DAY = 1440;
-const TIME_FORMAT = 'hh:mm';
+const HOUR_MINUTES_COUNT = 60;
+const TOTAL_DAY_MINUTES_COUNT = 1440;
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_TIME_FORMAT = 'DD/MM/YY hh:mm';
+const TIME_FORMAT = 'hh:mm';
 
-const humanizeWayPointDate = (date) => dayjs(date).format('DD MMM');
+const humanizePointDueDate = (date) => dayjs(date).format('DD MMM');
 
-const getTime = (date) => dayjs(date).format(TIME_FORMAT);
-
-const getDate = (date) => dayjs(date).format(DATE_FORMAT);
-
-const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
-
-const getDuration = (startTime, endTime) => {
-  const start = dayjs(startTime);
-  const end = dayjs(endTime);
+const duration = (dateFrom, dateTo) => {
+  const start = dayjs(dateFrom);
+  const end = dayjs(dateTo);
   const difference = end.diff(start, 'minute');
 
-  const daysDifference = Math.floor(difference / MINUTES_PER_DAY);
-  const hoursDifference = Math.floor((difference - daysDifference * MINUTES_PER_DAY) / MINUTES_PER_HOUR);
-  const minutesDifference = difference - (daysDifference * MINUTES_PER_DAY + hoursDifference * MINUTES_PER_HOUR);
+  const days = Math.floor(difference / TOTAL_DAY_MINUTES_COUNT);
+  const restHours = Math.floor((difference - days * TOTAL_DAY_MINUTES_COUNT) / HOUR_MINUTES_COUNT);
+  const restMinutes = difference - (days * TOTAL_DAY_MINUTES_COUNT + restHours * HOUR_MINUTES_COUNT);
 
-  const daysOutput = (daysDifference) ? `${daysDifference}D` : '';
-  const hoursOutput = (hoursDifference) ? `${hoursDifference}H` : '';
-  const minutesOutput = (minutesDifference) ? `${minutesDifference}M` : '';
+  const daysOutput = (days) ? `${days}D` : '';
+  const hoursOutput = (restHours) ? `${restHours}H` : '';
+  const minutesOutput = (restMinutes) ? `${restMinutes}M` : '';
 
   return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
 };
 
-const getRandomInt = (a = 0, b = 1) => {
-  const min = Math.ceil(Math.min(a, b));
-  const max = Math.floor(Math.max(a, b));
+const getDate = (date) => dayjs(date).format(DATE_FORMAT);
 
-  return Math.floor(min + Math.random() * (max - min + 1));
+const getTime = (date) => dayjs(date).format(TIME_FORMAT);
+
+const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
+
+const getRandomInteger = (a = 0, b = 1) => {
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
+
+  return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
 const getRandomElement = (elements) => {
-  const min = 0;
+  const MIN = 0;
   const max = elements.length - 1;
-  return elements[getRandomInt(min, max)];
+  return elements[getRandomInteger(MIN, max)];
 };
 
-export { getRandomInt, getRandomElement, humanizeWayPointDate, getDuration, getDate, getDateTime, getTime };
+export { getRandomInteger, getRandomElement, humanizePointDueDate, duration, getDate, getDateTime, getTime };

@@ -1,4 +1,4 @@
-import { getRandomInt, getRandomElement } from '../utils.js';
+import { getRandomInteger, getRandomElement } from '../utils.js';
 import dayjs from 'dayjs';
 
 const POINTS_COUNT = 8;
@@ -47,12 +47,12 @@ const DESCRIPTIONS = [
   'This place has a rich history and culture that can be explored in various museums and monuments.',
 ];
 
-const getDescriptionLength = () => getRandomInt(MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH);
+const getDescriptionLength = () => getRandomInteger(MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH);
 
 const getPicuresAmount = () => {
-  const hasPictures = Boolean(getRandomInt());
+  const hasPictures = Boolean(getRandomInteger());
 
-  return hasPictures ? getRandomInt(MIN_PICTURES_PER_DESTINATION, MAX_PICTURES_PER_DESTINATION) : 0;
+  return hasPictures ? getRandomInteger(MIN_PICTURES_PER_DESTINATION, MAX_PICTURES_PER_DESTINATION) : 0;
 };
 
 const ElementsCount = {
@@ -60,7 +60,7 @@ const ElementsCount = {
   MAX: 2
 };
 
-const getPrice = () => getRandomInt(1, 15) * 50;
+const getPrice = () => getRandomInteger(1, 15) * 50;
 
 const getDescription = () => {
   let description = '';
@@ -71,7 +71,7 @@ const getDescription = () => {
 };
 
 const generatePicture = () => ({
-  src: `http://picsum.photos/248/152?r=${getRandomInt(MIN_PICTURE_ID, MAX_PICTURE_ID)}`,
+  src: `http://picsum.photos/248/152?r=${getRandomInteger(MIN_PICTURE_ID, MAX_PICTURE_ID)}`,
   description: getDescription(),
 });
 
@@ -92,7 +92,7 @@ const generateOffer = (id, pointType) => ({
 
 const generateOffersByType = (pointType) => ({
   type: pointType,
-  offers: Array.from({length: getRandomInt(ElementsCount.MIN, ElementsCount.MAX)}).map((value, index) => generateOffer(index + 1, pointType)),
+  offers: Array.from({length: getRandomInteger(ElementsCount.MIN, ElementsCount.MAX)}).map((value, index) => generateOffer(index + 1, pointType)),
 });
 
 const getOffersByType = () => Array.from({length: POINT_TYPES.length}).map((value, index) => generateOffersByType(POINT_TYPES[index]));
@@ -105,16 +105,16 @@ const generatePoint = (id) => {
   const offerIDsByType = offerType.offers.map((offer) => offer.id);
   return {
     basePrice: getPrice(),
-    dateFrom: dayjs().add(getRandomInt(-7, 0), 'day').add(getRandomInt(-23, 0), 'hour').add(getRandomInt(-59, 0), 'minute'),
-    dateTo: dayjs().add(getRandomInt(0, 7), 'day').add(getRandomInt(0, 23), 'hour').add(getRandomInt(0, 59), 'minute'),
+    dateFrom: dayjs().add(getRandomInteger(-7, 0), 'day').add(getRandomInteger(-23, 0), 'hour').add(getRandomInteger(-59, 0), 'minute'),
+    dateTo: dayjs().add(getRandomInteger(0, 7), 'day').add(getRandomInteger(0, 23), 'hour').add(getRandomInteger(0, 59), 'minute'),
     destinationId: getRandomElement(destinations).id,
     id,
-    isFavorite: Boolean(getRandomInt()),
-    offerIds: Array.from({length: getRandomInt(0, offerIDsByType.length)}).map(() => offerIDsByType[getRandomInt(0, offerIDsByType.length - 1)]),
+    isFavorite: Boolean(getRandomInteger()),
+    offerIds: Array.from({length: getRandomInteger(0, offerIDsByType.length)}).map(() => offerIDsByType[getRandomInteger(0, offerIDsByType.length - 1)]),
     type: offerType.type,
   };
 };
 
-const getWayPoints = () => Array.from({length: POINTS_COUNT}).map((value, index) => generatePoint (index + 1));
+const getPoints = () => Array.from({length: POINTS_COUNT}).map((value, index) => generatePoint (index + 1));
 
-export { getWayPoints, getDestinations, getOffersByType };
+export { getPoints, getDestinations, getOffersByType };
