@@ -1,7 +1,7 @@
 import FiltersView from './view/filters.js';
 import TripEventsPresenter from './presenter/trip-events-presenter.js';
 // import SiteMenuView from './view/site-menu.js';
-import { render } from './render.js';
+import { render } from './framework/render.js';
 import PointsModel from './model/points-model.js';
 import { getPoints, getDestinations, getOffersByType } from './mock/point.js';
 
