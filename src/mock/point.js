@@ -106,8 +106,8 @@ const generatePoint = () => {
   const offerIDsByType = offerType.offers.map((offer) => offer.id);
   return {
     basePrice: getPrice(),
-    dateFrom: dayjs().add(getRandomInteger(-7, 0), 'day').add(getRandomInteger(-23, 0), 'hour').add(getRandomInteger(-59, 0), 'minute'),
-    dateTo: dayjs().add(getRandomInteger(0, 7), 'day').add(getRandomInteger(0, 23), 'hour').add(getRandomInteger(0, 59), 'minute'),
+    dateFrom: dayjs().add(getRandomInteger(-7, 3), 'day').add(getRandomInteger(-23, 0), 'hour').add(getRandomInteger(-59, 0), 'minute'),
+    dateTo: dayjs().add(getRandomInteger(-3, 7), 'day').add(getRandomInteger(0, 23), 'hour').add(getRandomInteger(0, 59), 'minute'),
     destinationId: getRandomElement(destinations).id,
     id: nanoid(),
     isFavorite: Boolean(getRandomInteger()),
