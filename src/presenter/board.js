@@ -1,16 +1,16 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import PointsListView from '../view/points-list.js';
-import SortingView from '../view/sort.js';
-import NoPointView from '../view/no-points.js';
-import LoadingView from '../view/loading.js';
-import NoAdditionalInfoView from '../view/no-additional-info';
-import PointPresenter from './point-presenter.js';
-import PointNewPresenter from './point-new-presenter.js';
+import NoAdditionalInfoView from '../view/no-additional-info.js';
+import PointPresenter from './point.js';
+import PointNewPresenter from './point-new.js';
 import { sorting } from '../utils/sorting.js';
 import { filter } from '../utils/filter.js';
 import { UpdateType, UserAction, SortType, FilterType, TimeLimit } from '../const.js';
-import TripInfoPresenter from './trip-info-presenter.js';
+import SortingView from '../view/sort.js';
+import NoPointView from '../view/no-points.js';
+import LoadingView from '../view/loading.js';
+import TripInfoPresenter from './trip-info.js';
 
 export default class BoardPresenter {
   #tripInfoContainer = null;
@@ -19,19 +19,19 @@ export default class BoardPresenter {
   #destinationsModel = null;
   #offersModel = null;
   #filterModel = null;
-
   #noPointComponent = null;
   #sortComponent = null;
-  #pointListComponent = new PointsListView();
-  #loadingComponent = new LoadingView();
-  #noAdditionalInfoComponent = new NoAdditionalInfoView();
-
-  #pointPresenter = new Map();
   #pointNewPresenter = null;
   #tripInfoPresenter = null;
+
+  #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
   #isLoading = true;
+
+  #pointListComponent = new PointsListView();
+  #loadingComponent = new LoadingView();
+  #noAdditionalInfoComponent = new NoAdditionalInfoView();
   #uiBlocker = new UiBlocker(TimeLimit.LOWER_LIMIT, TimeLimit.UPPER_LIMIT);
 
   constructor({tripInfoContainer, tripContainer, pointsModel, filterModel, destinationsModel, offersModel}) {

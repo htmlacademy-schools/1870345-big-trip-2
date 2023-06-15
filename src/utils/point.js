@@ -14,6 +14,18 @@ const getHoursOutput = (days, restHours) => (days <= 0 && restHours <= 0) ? '' :
 
 const getMinutesOutput = (restMinutes) => `${`${restMinutes}`.padStart(2, '0')}M`;
 
+const getDate = (date) => dayjs(date).format(DATE_FORMAT);
+
+const getTime = (date) => dayjs(date).format(TIME_FORMAT);
+
+const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
+
+const isPointDatePast = (dateTo) => dayjs().diff(dateTo, 'minute') > 0;
+
+const isPointDateFuture = (dateFrom) => dayjs().diff(dateFrom, 'minute') <= 0;
+
+const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'minute') > 0 && dayjs().diff(dateTo, 'minute') < 0;
+
 const duration = (dateFrom, dateTo) => {
   const start = dayjs(dateFrom);
   const end = dayjs(dateTo);
@@ -29,17 +41,5 @@ const duration = (dateFrom, dateTo) => {
 
   return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
 };
-
-const getDate = (date) => dayjs(date).format(DATE_FORMAT);
-
-const getTime = (date) => dayjs(date).format(TIME_FORMAT);
-
-const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
-
-const isPointDatePast = (dateTo) => dayjs().diff(dateTo, 'minute') > 0;
-
-const isPointDateFuture = (dateFrom) => dayjs().diff(dateFrom, 'minute') <= 0;
-
-const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'minute') > 0 && dayjs().diff(dateTo, 'minute') < 0;
 
 export { humanizePointDueDate, duration, getDate, getDateTime, getTime, isPointDatePast, isPointDateFuture, isPointDateFuturePast };
