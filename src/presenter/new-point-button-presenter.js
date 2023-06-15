@@ -1,5 +1,5 @@
 import { render } from '../framework/render.js';
-import NewPointButtonView from '../view/new-point-button.js';
+import NewPointButtonView from '../view/new-point-button-view.js';
 
 export default class NewPointButtonPresenter {
   #newPointButtonContainer = null;
