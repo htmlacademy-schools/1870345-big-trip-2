@@ -11,10 +11,10 @@ const sortTimePoint = (pointA, pointB) => {
   return timePointB - timePointA;
 };
 
-const sorting = {
+const Sorting = {
   [SortType.DAY]: (points) => points.sort(sortDayPoint),
   [SortType.TIME]: (points) => points.sort(sortTimePoint),
   [SortType.PRICE]: (points) => points.sort(sortPricePoint)
 };
 
-export { sorting };
+export { Sorting };

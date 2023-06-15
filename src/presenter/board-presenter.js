@@ -1,15 +1,15 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
-import PointsListView from '../view/points-list.js';
-import SortingView from '../view/sort.js';
-import NoPointView from '../view/no-points.js';
-import LoadingView from '../view/loading.js';
-import NoAdditionalInfoView from '../view/no-additional-info';
+import PointsListView from '../view/points-list-view.js';
+import NoAdditionalInfoView from '../view/no-additional-info-view.js';
 import PointPresenter from './point-presenter.js';
 import PointNewPresenter from './point-new-presenter.js';
-import { sorting } from '../utils/sorting.js';
-import { filter } from '../utils/filter.js';
+import { Sorting } from '../utils/sorting.js';
+import { Filter } from '../utils/filter.js';
 import { UpdateType, UserAction, SortType, FilterType, TimeLimit } from '../const.js';
+import SortingView from '../view/sort-view.js';
+import NoPointView from '../view/no-points-view.js';
+import LoadingView from '../view/loading-view.js';
 import TripInfoPresenter from './trip-info-presenter.js';
 
 export default class BoardPresenter {
@@ -19,19 +19,19 @@ export default class BoardPresenter {
   #destinationsModel = null;
   #offersModel = null;
   #filterModel = null;
-
   #noPointComponent = null;
   #sortComponent = null;
-  #pointListComponent = new PointsListView();
-  #loadingComponent = new LoadingView();
-  #noAdditionalInfoComponent = new NoAdditionalInfoView();
-
-  #pointPresenter = new Map();
   #pointNewPresenter = null;
   #tripInfoPresenter = null;
+
+  #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
   #isLoading = true;
+
+  #pointListComponent = new PointsListView();
+  #loadingComponent = new LoadingView();
+  #noAdditionalInfoComponent = new NoAdditionalInfoView();
   #uiBlocker = new UiBlocker(TimeLimit.LOWER_LIMIT, TimeLimit.UPPER_LIMIT);
 
   constructor({tripInfoContainer, tripContainer, pointsModel, filterModel, destinationsModel, offersModel}) {
@@ -55,16 +55,16 @@ export default class BoardPresenter {
     this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
+  init() {
+    this.#renderBoard();
+  }
+
   get points() {
     this.#filterType = this.#filterModel.filter;
     const points = this.#pointsModel.points;
-    const filteredPoints = filter[this.#filterType](points);
-    sorting[this.#currentSortType](filteredPoints);
+    const filteredPoints = Filter[this.#filterType](points);
+    Sorting[this.#currentSortType](filteredPoints);
     return filteredPoints;
-  }
-
-  init() {
-    this.#renderBoard();
   }
 
   createPoint = (callback) => {
@@ -156,7 +156,7 @@ export default class BoardPresenter {
 
   #renderTripInfo = () => {
     this.#tripInfoPresenter = new TripInfoPresenter(this.#tripInfoContainer, this.#destinationsModel, this.#offersModel);
-    const sortedPoints = sorting[SortType.DAY](this.points);
+    const sortedPoints = Sorting[SortType.DAY](this.points);
     this.#tripInfoPresenter.init(sortedPoints);
   };
 
